@@ -13,7 +13,7 @@ Server.prototype.getURL = function () {
 };
 
 */
-
+/*
 class Server {
   constructor(name, ip) {
     this.name = name;
@@ -27,3 +27,55 @@ class Server {
 const aws = new Server("AWS German", "82.21.21.32");
 
 console.log("aws.getURL()=", aws.getURL());
+*/
+
+//2) Factory
+class SimpleMembership {
+  constructor(name) {
+    this.name = name;
+    this.cost = 50;
+  }
+}
+class StandardMembership {
+  constructor(name) {
+    this.name = name;
+    this.cost = 150;
+  }
+}
+class PremiumMembership {
+  constructor(name) {
+    this.name = name;
+    this.cost = 500;
+  }
+}
+
+class MemberFactory {
+  static list = {
+    simple: SimpleMembership,
+    standard: StandardMembership,
+    premium: PremiumMembership,
+  };
+
+  create(name, type = "simple") {
+    const Membership = MemberFactory.list[type] || MemberFactory.list.simple;
+    const member = new Membership(name);
+    member.type = type;
+    member.define = function () {
+      console.log(`${this.name} (${this.type}): ${this.cost}`);
+    };
+    return member;
+  }
+}
+
+const factory = new MemberFactory();
+const members = [
+  factory.create("bob", "simple"),
+  factory.create("ann", "premium"),
+  factory.create("bill"),
+  factory.create("pete", "wrong type"),
+];
+
+console.log("members=", members);
+members.forEach((member) => {
+  member.define();
+});
