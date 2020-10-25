@@ -30,6 +30,7 @@ console.log("aws.getURL()=", aws.getURL());
 */
 
 //2) Factory
+/*
 class SimpleMembership {
   constructor(name) {
     this.name = name;
@@ -79,3 +80,18 @@ console.log("members=", members);
 members.forEach((member) => {
   member.define();
 });
+*/
+
+//Prototype
+car = {
+  wheels: 4,
+  init() {
+    console.log(
+      `I am a car. I have ${this.wheels} wheels, my owner is ${this.owner}`
+    );
+  },
+};
+
+const carWithOwner = Object.create(car, { owner: { value: "Bob" } });
+carWithOwner.init();
+console.log("carWithOwner.__proto__ === car=", carWithOwner.__proto__ === car);
