@@ -180,41 +180,43 @@ console.log(
 */
 
 //6) decarator
+/*
+class Server {
+  constructor(ip, port) {
+    this.ip = ip;
+    this.port = port;
+  }
 
-// class Server {
-//   constructor(ip, port) {
-//     this.ip = ip;
-//     this.port = port;
-//   }
+  get url() {
+    return `https://${this.ip}:${this.port}`;
+  }
+}
 
-//   get url() {
-//     return `https://${this.ip}:${this.port}`;
-//   }
-// }
+function aws(server) {
+  server.isAWS = true;
+  server.awsInfo = function () {
+    return server.url;
+  };
+  return server;
+}
 
-// function aws(server) {
-//   server.isAWS = true;
-//   server.awsInfo = function () {
-//     return server.url;
-//   };
-//   return server;
-// }
+function azure(server) {
+  server.isAzure = true;
+  server.port += 500;
+  return server;
+}
 
-// function azure(server) {
-//   server.isAzure = true;
-//   server.port += 500;
-//   return server;
-// }
+const s1 = aws(new Server("12.34.56.78", 8080));
+console.log("s1.isAWS=", s1.isAWS);
+console.log("s1.awsInfo()=", s1.awsInfo());
 
-// const s1 = aws(new Server("12.34.56.78", 8080));
-// console.log("s1.isAWS=", s1.isAWS);
-// console.log("s1.awsInfo()=", s1.awsInfo());
-
-// const s2 = azure(new Server("98.87.76.12", 1000));
-// console.log("s2.isAzure=", s2.isAzure);
-// console.log("s2.url=", s2.url);
+const s2 = azure(new Server("98.87.76.12", 1000));
+console.log("s2.isAzure=", s2.isAzure);
+console.log("s2.url=", s2.url);
+*/
 
 //7) facade
+/*
 class Complaints {
   constructor() {
     this.complaints = [];
@@ -241,7 +243,7 @@ class ServiceComplaints extends Complaints {
 class ComplaintRegistry {
   register(customer, type, details) {
     const id = Date.now();
-    console.log("id=", id);
+    // console.log("id=", id);
     let complaint;
     if (type === "service") {
       complaint = new ServiceComplaints();
@@ -255,3 +257,40 @@ class ComplaintRegistry {
 const registry = new ComplaintRegistry();
 console.log(registry.register("Vladimir", "service", "unavailable"));
 console.log(registry.register("Helen", "product", "too cost"));
+*/
+
+//8 flyweight
+class Car {
+  constructor(model, price) {
+    this.model = model;
+    this.price = price;
+  }
+}
+
+class CarFactory {
+  constructor() {
+    this.cars = [];
+  }
+  create(model, price) {
+    const candidate = this.getCar(model);
+    if (candidate) {
+      return candidate;
+    }
+    const newCar = new Car(model, price);
+    this.cars.push(newCar);
+    return newCar;
+  }
+  getCar(model) {
+    return this.cars.find((car) => car.model === model);
+  }
+}
+
+const factory = new CarFactory();
+const bmwx6 = factory.create("bmw", 10000);
+const audi = factory.create("audi", 12000);
+const bmwx3 = factory.create("bmw", 8000);
+
+console.log("bmwx6=", bmwx6);
+console.log("audi=", audi);
+console.log("bmwx3=", bmwx3);
+console.log("bmwx3===bmwx6", bmwx3 === bmwx6);
