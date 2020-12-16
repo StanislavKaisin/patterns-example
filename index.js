@@ -181,35 +181,77 @@ console.log(
 
 //6) decarator
 
-class Server {
-  constructor(ip, port) {
-    this.ip = ip;
-    this.port = port;
+// class Server {
+//   constructor(ip, port) {
+//     this.ip = ip;
+//     this.port = port;
+//   }
+
+//   get url() {
+//     return `https://${this.ip}:${this.port}`;
+//   }
+// }
+
+// function aws(server) {
+//   server.isAWS = true;
+//   server.awsInfo = function () {
+//     return server.url;
+//   };
+//   return server;
+// }
+
+// function azure(server) {
+//   server.isAzure = true;
+//   server.port += 500;
+//   return server;
+// }
+
+// const s1 = aws(new Server("12.34.56.78", 8080));
+// console.log("s1.isAWS=", s1.isAWS);
+// console.log("s1.awsInfo()=", s1.awsInfo());
+
+// const s2 = azure(new Server("98.87.76.12", 1000));
+// console.log("s2.isAzure=", s2.isAzure);
+// console.log("s2.url=", s2.url);
+
+//7) facade
+class Complaints {
+  constructor() {
+    this.complaints = [];
   }
-
-  get url() {
-    return `https://${this.ip}:${this.port}`;
+  reply(complaint) {}
+  add(complaint) {
+    this.complaints.push(complaint);
+    return this.reply(complaint);
   }
 }
 
-function aws(server) {
-  server.isAWS = true;
-  server.awsInfo = function () {
-    return server.url;
-  };
-  return server;
+class ProductComplaints extends Complaints {
+  reply({ id, customer, details }) {
+    return `Product: ${id}: ${customer} (${details})`;
+  }
 }
 
-function azure(server) {
-  server.isAzure = true;
-  server.port += 500;
-  return server;
+class ServiceComplaints extends Complaints {
+  reply({ id, customer, details }) {
+    return `Service: ${id}: ${customer} (${details})`;
+  }
+}
+//facade class
+class ComplaintRegistry {
+  register(customer, type, details) {
+    const id = Date.now();
+    console.log("id=", id);
+    let complaint;
+    if (type === "service") {
+      complaint = new ServiceComplaints();
+    } else {
+      complaint = new ProductComplaints();
+    }
+    return complaint.add({ id, customer, details });
+  }
 }
 
-const s1 = aws(new Server("12.34.56.78", 8080));
-console.log("s1.isAWS=", s1.isAWS);
-console.log("s1.awsInfo()=", s1.awsInfo());
-
-const s2 = azure(new Server("98.87.76.12", 1000));
-console.log("s2.isAzure=", s2.isAzure);
-console.log("s2.url=", s2.url);
+const registry = new ComplaintRegistry();
+console.log(registry.register("Vladimir", "service", "unavailable"));
+console.log(registry.register("Helen", "product", "too cost"));
