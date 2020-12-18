@@ -260,6 +260,7 @@ console.log(registry.register("Helen", "product", "too cost"));
 */
 
 //8 flyweight
+/*
 class Car {
   constructor(model, price) {
     this.model = model;
@@ -294,3 +295,26 @@ console.log("bmwx6=", bmwx6);
 console.log("audi=", audi);
 console.log("bmwx3=", bmwx3);
 console.log("bmwx3===bmwx6", bmwx3 === bmwx6);
+*/
+
+//9 proxy
+
+function networkFetch(url) {
+  return `${url} - server response`;
+}
+
+cache = new Set();
+const proxiedFetch = new Proxy(networkFetch, {
+  apply(target, thisArg, args) {
+    const url = args[0];
+    if (cache.has(url)) {
+      return `${url} - answer from cache`;
+    } else {
+      cache.add(url);
+      return Reflect.apply(target, thisArg, args);
+    }
+  },
+});
+console.log(proxiedFetch("angular.io"));
+console.log(proxiedFetch("react.io"));
+console.log(proxiedFetch("angular.io"));
