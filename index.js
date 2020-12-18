@@ -299,6 +299,7 @@ console.log("bmwx3===bmwx6", bmwx3 === bmwx6);
 
 //9 proxy
 
+/*
 function networkFetch(url) {
   return `${url} - server response`;
 }
@@ -318,3 +319,26 @@ const proxiedFetch = new Proxy(networkFetch, {
 console.log(proxiedFetch("angular.io"));
 console.log(proxiedFetch("react.io"));
 console.log(proxiedFetch("angular.io"));
+*/
+
+// iii behaviour
+//10 chain of responsibility
+class MySum {
+  constructor(initialValue = 42) {
+    this.sum = initialValue;
+  }
+  add(value) {
+    // console.log("value=", value);
+    // console.log("this.sum=", this.sum);
+    this.sum += value;
+    return this;
+  }
+}
+
+const sum1 = new MySum();
+console.log("sum1=", sum1);
+console.log(sum1.add(8));
+console.log(sum1.add(8).add(10).add(1).add(9).sum);
+
+const sum2 = new MySum(0);
+console.log(sum2.add(1).add(2).add(3).add(4).sum);
