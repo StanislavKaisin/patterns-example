@@ -347,6 +347,7 @@ console.log(sum2.add(1).add(2).add(3).add(4).sum);
 */
 
 // 11 command
+/*
 class MyMath {
   constructor(initialValue = 0) {
     this.num = initialValue;
@@ -374,3 +375,52 @@ console.log("x=", x);
 console.log("x.execute('square')=", x.execute("square"));
 console.log("x.execute('cube')=", x.execute("cube"));
 console.log("x.commandsExecuted=", x.commandsExecuted);
+*/
+
+// 12 iterator
+class MyIterator {
+  constructor(data) {
+    this.index = 0;
+    this.data = data;
+  }
+  [Symbol.iterator]() {
+    return {
+      next: () => {
+        if (this.index < this.data.length) {
+          return {
+            value: this.data[this.index++],
+            done: false,
+          };
+        } else {
+          this.index = 0;
+          return {
+            done: true,
+            value: void 0,
+          };
+        }
+      },
+    };
+  }
+}
+
+function* genertor(collection) {
+  let index = 0;
+  while (index < collection.length) {
+    yield collection[index++];
+  }
+}
+
+const iterator = new MyIterator(["this", "is", "iterator"]);
+for (const value of iterator) {
+  console.log("value iterator=", value);
+}
+console.log("_______________________");
+const gen = genertor(["this", "is", "generator"]);
+
+// for (const value of gen) {
+//   console.log("value genertor=", value);
+// }
+console.log("gen.next().value=", gen.next().value);
+console.log("gen.next().value=", gen.next().value);
+console.log("gen.next().value=", gen.next().value);
+console.log("gen.next().value=", gen.next().value);
