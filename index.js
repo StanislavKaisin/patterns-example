@@ -601,6 +601,7 @@ console.log("traffic.sign(4)=", traffic.sign());
 */
 
 //16 strategy
+/*
 class Vehicle {
   travelTime() {
     return this.timeTaken;
@@ -634,3 +635,41 @@ const commute = new Commute();
 console.log("commute.travel(new Taxi)=", commute.travel(new Taxi()));
 console.log("commute.travel(new Bus)=", commute.travel(new Bus()));
 console.log("commute.travel(new Car)=", commute.travel(new Car()));
+*/
+
+// 17 template
+class Employee {
+  constructor(name, salary) {
+    this.name = name;
+    this.salary = salary;
+  }
+  responsibilities() {}
+  work() {
+    return `${this.name} works ${this.responsibilities()}`;
+  }
+  getPaid() {
+    return `${this.name} has salary ${this.salary}`;
+  }
+}
+class Developer extends Employee {
+  constructor(name, salary) {
+    super(name, salary);
+  }
+  responsibilities() {
+    return `created apps`;
+  }
+}
+class QA extends Employee {
+  constructor(name, salary) {
+    super(name, salary);
+  }
+  responsibilities() {
+    return `tested apps`;
+  }
+}
+const dev = new Developer("V", 1000);
+console.log("dev.getPaid()=", dev.getPaid());
+console.log("dev.work()=", dev.work());
+const qa = new QA("J", 900);
+console.log("qa.getPaid()=", qa.getPaid());
+console.log("qa.work()=", qa.work());
