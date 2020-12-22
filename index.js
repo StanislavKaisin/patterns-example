@@ -539,6 +539,7 @@ console.log("obs2.state=", obs2.state);
 */
 
 //15 state
+/*
 class Light {
   constructor(light) {
     this.light = light;
@@ -597,3 +598,39 @@ traffic.change();
 console.log("traffic.sign(3)=", traffic.sign());
 traffic.change();
 console.log("traffic.sign(4)=", traffic.sign());
+*/
+
+//16 strategy
+class Vehicle {
+  travelTime() {
+    return this.timeTaken;
+  }
+}
+class Bus extends Vehicle {
+  constructor() {
+    super();
+    this.timeTaken = 10;
+  }
+}
+class Taxi extends Vehicle {
+  constructor() {
+    super();
+    this.timeTaken = 5;
+  }
+}
+class Car extends Vehicle {
+  constructor() {
+    super();
+    this.timeTaken = 3;
+  }
+}
+
+class Commute {
+  travel(transport) {
+    return transport.travelTime();
+  }
+}
+const commute = new Commute();
+console.log("commute.travel(new Taxi)=", commute.travel(new Taxi()));
+console.log("commute.travel(new Bus)=", commute.travel(new Bus()));
+console.log("commute.travel(new Car)=", commute.travel(new Car()));
